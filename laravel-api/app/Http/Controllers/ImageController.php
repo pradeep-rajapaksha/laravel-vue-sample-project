@@ -15,6 +15,9 @@ class ImageController extends Controller
     public function index()
     {
         //
+        $images = \App\Image::all();
+
+        return response()->json(['data'=>$images,'error'=>false,'errormsg'=>'','success'=>true],200);
     }
 
     /**
@@ -34,9 +37,17 @@ class ImageController extends Controller
      * @param  \App\Image  $image
      * @return \Illuminate\Http\Response
      */
-    public function show(Image $image)
+    public function show($id)
     {
         //
+        $image = \App\Image::findOrFail($id);
+        // dd($image);
+        if(empty($image))
+            return response()->json(['data'=>$image,'error'=>true,'errormsg'=>'image not found','success'=>false],404);
+
+        // $url = \Storage::url($image->path);
+        // return response()->download($url);
+        return response()->json(['data'=>$image,'error'=>false,'errormsg'=>'','success'=>true],200);
     }
 
     /**

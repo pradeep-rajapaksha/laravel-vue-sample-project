@@ -39,7 +39,7 @@ class Post extends Model
     	'title'           	=> 'required',
 		'slug'          	=> '',
 		'content'         	=> 'required',
-		'image'         	=> 'sometimes|mimes:jpeg,png,gif,tiff',
+		'image'         	=> 'sometimes', // |mimes:jpeg,png,gif,tiff
 		'published_at'     	=> '',
 		'author'         	=> '',
 		'status'         	=> '',
@@ -51,6 +51,14 @@ class Post extends Model
      * @var array
      */
     public static $message = [];
+
+    /**
+     * Get the image record associated with the user.
+     */
+    public function _image()
+    {
+        return $this->hasOne('App\Image', 'image', 'id');
+    }
 
     /**
      * The function that generate post slug.

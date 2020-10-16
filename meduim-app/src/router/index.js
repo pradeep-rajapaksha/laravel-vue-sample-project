@@ -21,13 +21,13 @@ const routes = [
   },
   {
     path: '/post/create',
-    name: 'post-create',
+    name: 'Post-Create',
     component: () => import('../views/PostCreate.vue'),
     beforeEnter: authGuard
   },
   {
     path: '/post/:id',
-    name: 'post',
+    name: 'Post',
     component: () => import('../views/Post.vue'),
     beforeEnter: authGuard
   },

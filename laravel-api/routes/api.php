@@ -17,10 +17,12 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
-
 Route::get('/posts', 'PostController@index');
 Route::get('/posts/{id}', 'PostController@show');
 Route::post('/posts', 'PostController@store');
 // Route::delete('/posts/{id}', 'PostController@delete');
 
 Route::get('/posts/submit/medium', 'MediumController@index');
+
+Route::get('/images', 'ImageController@index');
+Route::get('/images/{id}', 'ImageController@show');

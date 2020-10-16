@@ -41,11 +41,9 @@ class PostController extends Controller
             $image = $request->image->store('public/uploads');
 
             $_image = new \App\Image();
-            $_image->filename = $image;
+            $_image->filename = basename($image);
             $_image->path = $image;
-
             if($_image->save()) {
-                // 
                 $post->image    = $_image->id;
             }
         }
@@ -72,6 +70,15 @@ class PostController extends Controller
     {
         //
         $post = \App\Post::findOrFail($id);
+
+        if($post->image) {
+            // $post->image = $post->_image();
+            $post->image = \App\Image::where('id', $post->image)->first();
+            if($post->image) {
+                $url = \Storage::url($post->image->path);
+                $post->image->url = asset($url);
+            }
+        }
 
         if(empty($post))
             return response()->json(['data'=>$post,'error'=>true,'errormsg'=>'post not found','success'=>false],404);

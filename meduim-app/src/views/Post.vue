@@ -1,6 +1,6 @@
 <template>
   <div v-if="post" class="post-single">
-    <section class="hero is-primary">
+    <section class="hero is-primary has-text-left">
       <div class="hero-body">
         <div class="container">
           <h1 class="title">
@@ -14,13 +14,14 @@
         </div>
       </div>
     </section>
-    <section class="post-content">
+    <section class="post-content has-text-left">
       <div class="container">
-        <p class="is-size-4 description">{{ post.content }}</p>
-        <div class="post-images columns is-multiline has-text-centered">
-          <!-- <div v-for="image in post.images" :key="image.id" class="column is-one-third"> -->
+        <p class="is-size-4 description py-5">{{ post.content }}</p>
+        <div class="post-images columns is-multiline has-text-centered" v-if="post.image">
           <div class="column is-one-third">
-            <img :src="post.image" :alt="post.name">
+            <figure class="image">
+              <img :src="post.image.url" :alt="post.name">
+            </figure>
           </div>
         </div>
       </div>
@@ -32,40 +33,18 @@ export default {
   name: 'Post',
   data () {
     return {
-      posts: [
-        {
-          "id": 1,
-          "title": "Test Post 1",
-          "slug": "test-1",
-          "content": "Testing 001",
-          "image": null,
-          "published_at": null,
-          "author": null,
-          "status": "draft",
-          "created_at": "2020-10-11 18:51:53",
-          "updated_at": "2020-10-11 18:51:53"
-        },
-        {
-          "id": 2,
-          "title": "Test Post 2",
-          "slug": "test-2",
-          "content": "Testing 002",
-          "image": null,
-          "published_at": null,
-          "author": null,
-          "status": "draft",
-          "created_at": "2020-10-11 18:52:17",
-          "updated_at": "2020-10-11 18:52:17"
-        }
-      ],
       post: {}
     }    
   },
-  created() {
-    const ID = Number(this.$route.params.id);
-    let post = this.posts.find(post => post.id === ID);
-    // console.log(post)
-    this.post = post;
+  mounted() {
+    const id = Number(this.$route.params.id);
+    // console.log(axios);
+    this.$axios({ method: "GET", "url": this.$api+"posts/"+id }).then(response => {
+        // console.log(response)
+        this.post = response.data.data;
+      }, error => {
+        console.error(error);
+      });
   }
 }
 </script>
