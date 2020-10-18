@@ -67,7 +67,7 @@ export default {
   },
   mounted() {
     // console.log(axios);
-    this.$axios({ method: "GET", "url": this.$api+"posts" }).then(response => {
+    this.$axios({ method: "GET", "url": this.$api+"posts", headers: { 'Authorization': 'Bearer '+ this.$auth.accessToken, 'Content-Type': 'application/json' } }).then(response => {
         // console.log(response)
         this.posts = response.data.data;
       }, error => {

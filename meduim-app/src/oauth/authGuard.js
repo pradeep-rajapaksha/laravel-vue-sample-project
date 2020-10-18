@@ -10,7 +10,7 @@ export const authGuard = (to, from, next) => {
     }
 
     // Otherwise, log in
-    authService.loginWithRedirect({ appState: { targetUrl: to.fullPath } });
+    authService.login();
   };
 
   // If loading has already finished, check the auth state using `fn()`

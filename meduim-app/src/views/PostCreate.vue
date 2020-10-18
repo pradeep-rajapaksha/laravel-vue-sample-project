@@ -119,7 +119,7 @@
         formData.append('status', this.form.status);
         formData.append('image', this.form.image);
 
-        this.$axios.post(this.$api+"posts", formData, {'content-type': 'multipart/form-data'})
+        this.$axios.post(this.$api+"posts", formData, { headers: { 'Authorization': 'Bearer '+ this.$auth.accessToken, 'Content-type': 'multipart/form-data'} })
         .then((res) => {
           var post = res.data.data;
           // console.log(post)

@@ -4,23 +4,16 @@ import router from './router'
 import axios from "axios";
 
 import 'bulma/css/bulma.css'
-// import 'bootstrap/dist/css/bootstrap.css'
-// import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 // Import the Auth0 configuration
-import { domain, clientId } from "../auth_config.json";
+// import { domain, clientId } from "../auth_config.json";
 
 // Import the plugin here
-import { Auth0Plugin } from "./auth";
+import { OAuthPlugin } from "./oauth";
 
 // Vue.prototype.$router = router;
-Vue.prototype.$axios = axios;
-Vue.prototype.$api = 'http://127.0.0.1:8000/api/';
 
-// Install the authentication plugin here
-Vue.use(Auth0Plugin, {
-  domain,
-  clientId,
+Vue.use(OAuthPlugin, { 
   onRedirectCallback: appState => {
     router.push(
       appState && appState.targetUrl
@@ -29,6 +22,9 @@ Vue.use(Auth0Plugin, {
     );
   }
 });
+
+Vue.prototype.$axios = axios;
+Vue.prototype.$api = 'http://127.0.0.1:8000/api/';
 
 Vue.config.productionTip = false
 
