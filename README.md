@@ -5,6 +5,8 @@ Laravel Vue.js Sample Project
 - locate into `laravel-api` directory
 - run `composer install` to install composer dependencies
 - rename `.env.example` to `.env` and update database connection settings
+- create new application in https://medium.com/me/applications
+	- use `http://[ip]:8080/callback/medium` pattern for the *Callback URL*
 - change meduim.com client configuration in `laravel-api/config/medium.php`
 - run `php artisan config:cache` to cache the env configurations
 - run `php artisan migrate` to migrate the database
@@ -15,4 +17,4 @@ Follow this API collection for API usage: https://www.getpostman.com/collections
 
 ## Frontend App (SPA): Vue.js
 - locate into `meduim-app` directory
-- run `npm install` and `npm run serve` to start the frontend app: app will be served by http://localhost:8080 
+- run `npm install` and `npm run serve` to start the frontend app: app will be served by http://localhost:8080 or http://[ip]:8080 
