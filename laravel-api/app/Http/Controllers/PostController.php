@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Post;
 use Illuminate\Http\Request;
+use App\Service\MediumService;
 
 class PostController extends Controller
 {
@@ -108,4 +109,51 @@ class PostController extends Controller
     {
         //
     }
+
+    /**
+     * Publish the specified resource to Medium.com.
+     *
+     * @param  \App\Post  $post
+     * @return \Illuminate\Http\Response
+     */
+    public function submitToMedium($id)
+    {
+        //
+        $post = \App\Post::find($id);
+        
+        if(empty($post))
+            return response()->json(['data'=>$post,'error'=>true,'errormsg'=>'post not found','success'=>false],404);
+
+        // 
+        $medium = new MediumService();
+        $medium->setAccessToken(\Auth::user()->access_token);
+
+        $data = [
+            'title' => $post->title,
+            'contentFormat' => 'html',
+            'content' => $post->content,
+            'publishStatus' => 'draft',
+        ];
+        $response = $medium->createPost(\Auth::user()->mediumid, $data);
+
+        if($response->data && $response->data->id) {
+            // 
+            $post->status = 'published';
+            $post->published_at = date('Y-m-d H:i:s');
+            $post->save();
+
+            if($post->image) {  
+                $post->image = \App\Image::where('id', $post->image)->first();
+                if($post->image) {
+                    $url = \Storage::url($post->image->path);
+                    $post->image->url = asset($url);
+                }
+            }
+
+            return response()->json(['data'=>$post,'error'=>false,'errormsg'=>'','success'=>true],200);
+        }
+
+        return response()->json(['data'=>$post,'error'=>true,'errormsg'=>'post could not submit to medium.com','success'=>false],401);
+    }
+
 }

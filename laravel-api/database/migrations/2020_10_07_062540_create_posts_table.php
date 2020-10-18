@@ -18,15 +18,11 @@ class CreatePostsTable extends Migration
             $table->string('title');
             $table->string('slug')->unique();
             $table->longText('content');
-
             $table->unsignedBigInteger('image')->nullable();
             // $table->foreign('image')->references('id')->on('images');
-
             $table->dateTime('published_at')->nullable();
-
             $table->unsignedBigInteger('author')->nullable();
-            // $table->foreign('author')->references('id')->on('users');
-            
+            // $table->foreign('author')->references('mediumid')->on('users');
             $table->enum('status', ['published', 'unpublished', 'draft', 'deleted']);
             $table->timestamps();
         });

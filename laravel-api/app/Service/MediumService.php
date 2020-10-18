@@ -82,13 +82,6 @@ class MediumService
      */
     public function __construct($credentials = null)
     {	
-    	$credentials = [	
-            'client-id' => 'f6c8311e0de9',
-            'client-secret' => '929534fec99333e337d4f25c75742fc2b22a696b',
-            'redirect-url' => 'http://127.0.0.1:8000/callback/medium',
-            'state' => 'DG52PR&u@MAq',
-            'scopes' => 'basicProfile,publishPost',
-        ];
         if (!is_null($credentials)) {
             $this->setUpCredentials($credentials);
             $this->setBasicApiClient();
@@ -147,7 +140,8 @@ class MediumService
         $this->expires = $tokens->expires_at;
 
         $this->client->authenticate($this->accessToken);
-		var_dump($tokens);
+		// var_dump($tokens);
+        return $tokens;
     }
 
     /**
@@ -275,7 +269,8 @@ class MediumService
      * @return void
      */
     public function setAccessToken($accessToken)
-    {
+    {   
+        $this->setClient(new Client());
         $this->accessToken = $accessToken;
         $this->client->authenticate($this->accessToken);
     }
@@ -302,7 +297,7 @@ class MediumService
         $this->refreshToken = $refreshToken;
     }
 
-     /**
+    /**
      * Get the access token expiry.
      *
      * @return int64
@@ -378,7 +373,9 @@ class MediumService
     private function setBasicApiClient()
     {
         $this->client = new Client();
-
+        
+        \Log::info("accessToken >>>>> ");
+        \Log::info($this->accessToken);
         // if using a self issued access token,
         // just authenticate the user right now
         if (!is_null($this->accessToken)) {

@@ -17,12 +17,18 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
-Route::get('/posts', 'PostController@index');
-Route::get('/posts/{id}', 'PostController@show');
-Route::post('/posts', 'PostController@store');
+Route::group(['middleware' => 'auth:api'], function () {
+    
+	Route::get('/posts', 'PostController@index');
+	Route::post('/posts/{id}/submit', 'PostController@submitToMedium');
+	Route::get('/posts/{id}', 'PostController@show');
+	Route::post('/posts', 'PostController@store');
+
+	Route::get('/images', 'ImageController@index');
+	Route::get('/images/{id}', 'ImageController@show');
+});
+
 // Route::delete('/posts/{id}', 'PostController@delete');
 
-Route::get('/posts/submit/medium', 'MediumController@index');
-
-Route::get('/images', 'ImageController@index');
-Route::get('/images/{id}', 'ImageController@show');
+Route::get('/medium/oauth', 'MediumController@index');
+Route::post('/medium/oauth/callback', 'MediumController@callback');
