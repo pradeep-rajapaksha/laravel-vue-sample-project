@@ -4,7 +4,7 @@ Laravel Vue.js Sample Project
 ## Laravel
 - locate into `laravel-api` directory
 - run `composer install` to install composer dependencies
-- rename `.env.example` to `.env` and update database connection settings
+- rename `.env.example` to `.env` and update database (MySQL preferred) connection settings
 - create new application in https://medium.com/me/applications
 	- use `http://[ip]:8080/callback/medium` pattern for the *Callback URL*
 - change meduim.com client configuration in `laravel-api/config/medium.php`
